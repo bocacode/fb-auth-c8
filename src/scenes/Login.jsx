@@ -1,10 +1,26 @@
 import { useState } from "react"
+import { initializeApp } from "firebase/app"
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth"
 
-export default function Login() {
+const firebaseConfig = {
+  apiKey: "AIzaSyB5ew1Rdb_C3vcuh_k40MxqCfkLcxCGRLU",
+  authDomain: "fb-auth-c8.firebaseapp.com",
+  projectId: "fb-auth-c8",
+  storageBucket: "fb-auth-c8.appspot.com",
+  messagingSenderId: "279615595705",
+  appId: "1:279615595705:web:fb897bda254a65b64fa768"
+};
+
+export default function Login({ setUser }) {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault()
+    const app = initializeApp(firebaseConfig) // connects to Firebase
+    const auth = getAuth(app) // connects us to Firebase Auth
+    const response = await signInWithEmailAndPassword(auth, email, password)
+      .catch(alert)
+    setUser(response.user)
   }
   return (
     <>
